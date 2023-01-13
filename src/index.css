@@ -1,0 +1,172 @@
+::-webkit-input-placeholder {
+  text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+  text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+  text-align: center;  
+}
+
+:-ms-input-placeholder {  
+  text-align: center; 
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+  width: 100vw;
+}
+
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
+
+.message {
+	background-color: red;
+	text-align: center;
+}
+
+.peers{
+	background-color: rgba(118, 203, 230, 0.842);
+  height: 100%;
+}
+
+.height{
+  height: 100%;
+}
+.message2 {
+	background-color: green;
+	text-align: center;
+  padding-right: 2%;
+}
+
+.results {
+	background-color: rgba(118, 203, 230, 0.842);
+  text-align: center;
+  height: 100%;
+}
+
+.resultsInfo {
+  padding-top: 0.2%;
+  height: 100%;
+}
+
+.transaction {
+	background-color: rgb(118, 183, 212);
+	padding-left: 5%;
+  padding-right: 5%;
+  padding-bottom: 2%;
+  padding-top: 2%;
+  height: 100%;
+}
+
+.transactionInner {
+	text-align: left;
+  border: black 2px solid;
+  background-color: rgb(36, 169, 221);
+  padding-left: 3%;
+
+}
+
+.transaction2 {
+	background-color: rgb(118, 183, 212);
+	padding-left: 35%;
+  padding-right: 35%;
+  padding-bottom: 2%;
+  padding-top: 2%;
+  height: 100%;
+}
+
+.transactionInner2 {
+	text-align: center;
+  border: black 2px solid;
+  background-color: rgb(36, 169, 221);
+  padding-left: 3%;
+  padding-bottom: 2%;
+  height: 100%;
+}
+
+.transactionInner3 {
+	text-align: center;
+  border: black 2px solid;
+  background-color: rgb(36, 169, 221);
+  padding: 3%;
+  height: 100%;
+}
+
+.input{
+  width: 85%;
+}
+
+.input2{
+  width: 35%;
+}
+.eachTransaction {
+	padding-left: 3%;
+}
+
+.signature {
+	padding-left: 3%;
+}
+
+.innerSig{
+  padding-left: 2%;
+}
+
+.inputs {
+  padding-left: 3%;
+}
+
+.paddingTop {
+  padding-top: 4%;
+}
+
+.marginButton {
+  margin: 2%;
+}
+
+.paddingTop2 {
+  padding-top: 10%;
+}
+
+.squareBracket{
+  padding-left: 1.5%;
+}
+
+.minedInBlockIndex{
+  padding-left: 1%;
+}
+
+.float-container {
+  padding: 20px;
+}
+
+.float-child {
+  width: 45%;
+  height: 300px;
+  float: left;
+  padding: 1%;
+  margin: 1%;
+  background-color: rgb(36, 169, 221);
+  border: 2px solid black;
+}  
+
+.float-child2 {
+  width: 29%;
+  height: 300px;
+  float: left;
+  padding: 1%;
+  margin: 1%;
+  background-color: rgb(36, 169, 221);
+  border: 2px solid black;
+}  

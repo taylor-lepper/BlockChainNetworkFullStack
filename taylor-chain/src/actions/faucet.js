@@ -1,8 +1,9 @@
 import axios from "axios";
 
-const faucet = async (token) => {
+const faucet = async (walletAddress, token) => {
     const url = `http://localhost:3001/faucet`;
-    const body = JSON.stringify({ token: token });
+
+    const body = JSON.stringify({address: walletAddress, token: token});
     const config = {
       headers: {
         "Content-Type": "application/json",
@@ -18,6 +19,7 @@ const faucet = async (token) => {
             } 
         } catch (err) {
             console.log(err);
+            return err.response.data;
     
     }
 

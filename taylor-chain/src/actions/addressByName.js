@@ -19,6 +19,7 @@ const addressByName = async (name) => {
                 }
             } catch (err) {
                 console.log(err);
+                return err.response.data.message;
             }
     }
 

@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const wallet = async (type, name) => {
+const transaction = async (type, from, recipient, amount, gas) => {
 
   if (type === "new") {
   try {
    
-      let url = `http://localhost:3001/wallet/new`;
-      const body = JSON.stringify({ name: name });
+      let url = `http://localhost:3001/transactions/create`;
+      const body = JSON.stringify({ from: from, recipient: recipient, amount: amount, gas: gas });
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -21,10 +21,9 @@ const wallet = async (type, name) => {
    
   } catch (err) {
     console.log(err);
-    if(err.message === "Network Error"){return err.message};
-    return err.response.data.message;
+    return err.response.data;
   }
 }
 };
 
-export default wallet;
+export default transaction;

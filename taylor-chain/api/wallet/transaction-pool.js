@@ -30,7 +30,7 @@ class TransactionPool {
 
   validTransactions() {
     return this.transactions.filter((transaction) => {
-      console.log(transaction);
+      console.log("validTransactions", transaction);
       if (
         transaction.input.address === "0x1111111111111111111111111111111111111111"||
         transaction.input.address === "0x00000000000000000000000000000000000000"
@@ -47,7 +47,7 @@ class TransactionPool {
         if (currOutput.newSenderPendingBalance) {
           // console.log(currOutput);
           inputAmount = BigInt(currOutput.newSenderPendingBalance);
-        } else {
+        }else {
           console.log(currOutput);
           outputTotal += BigInt(currOutput.sentAmount) + BigInt(currOutput.gas);
         }

@@ -19,6 +19,8 @@ const address = async (port) => {
                 }
             } catch (err) {
                 console.log(err);
+                return err.message;
+               
             }
     }
 

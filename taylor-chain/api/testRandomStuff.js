@@ -111,8 +111,17 @@
 
 
 
-let thing = "0x11111111111111111111111111111111111111"
-let thing1 = "0x00000000000000000000000000000000000000"
+// let thing = "0x11111111111111111111111111111111111111"
+// let thing1 = "0x00000000000000000000000000000000000000"
 
-console.log(thing.length);
-console.log(thing1.length)
+// console.log(thing.length);
+// console.log(thing1.length)
+
+
+
+
+let date = "2023-01-17T22:37:05.787Z";
+
+let date2 = "2023-01-17T22:37:06.946Z";
+
+console.log(date > date2);

@@ -103,6 +103,16 @@ const Explorer = (props) => {
   const submitIndex = async (event) => {
     event.preventDefault();
 
+    if(index === "" || isNaN(index)){
+      setMessage(
+        "Please enter a valid index of the blockchain!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     const result = await explore("index", index);
     if (result) {
       console.log(result);
@@ -127,6 +137,16 @@ const Explorer = (props) => {
 
   const submitAddress = async (event) => {
     event.preventDefault();
+
+    if(address === ""){
+      setMessage(
+        "Please enter a valid wallet address to search the blockchain!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
 
     const result = await explore("address", address);
     if (result) {
@@ -153,6 +173,17 @@ const Explorer = (props) => {
   const submitTransactionHash = async (event) => {
     event.preventDefault();
 
+
+    if(transactionHash === ""){
+      setMessage(
+        "Please enter a valid transactionHash to search the blockchain!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     const result = await explore("transactionHash", transactionHash);
     if (result) {
       console.log(result);
@@ -166,7 +197,7 @@ const Explorer = (props) => {
     }
 
     if (!result) {
-      setMessage("Please enter a valid address in the text box.");
+      setMessage("Please enter a valid transactionHash in the text box.");
 
       setTimeout(() => {
         setMessage("");

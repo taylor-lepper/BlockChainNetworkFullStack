@@ -13,6 +13,7 @@ class Wallet {
     this.publicKey = "0x" + this.keyPair.getPublic().encode("hex");
     this.address = "0x" + ChainUtil.computeAddressFromPrivKey(this.privateKey);
     this.publicKeyCompressed = ChainUtil.compressPublicKey(this.publicKey);
+    this.startTime = "1991-10-01T00:00:00.000Z";
   }
 
   toString() {
@@ -63,12 +64,12 @@ class Wallet {
     gas
   ) {
   
-    // this.balance = this.calculateBalance(blockchain);
+  this.calculateBalance(blockchain, transactionPool);
     if (BigInt(senderWallet.confirmedBalance) < BigInt(amount) + BigInt(gas)) {
       console.log(
         `Amount ${amount} exceeds the current balance: ${senderWallet.confirmedBalance}`
       );
-      return `Amount ${amount} exceeds the current balance: ${senderWallet.confirmedBalance}`;
+      return {errorMsg: `Amount ${amount} exceeds the current balance: ${senderWallet.confirmedBalance}`};
     }
     // console.log(transactionPool);
     let transaction = transactionPool.isExistingTransaction(this.address);
@@ -116,9 +117,11 @@ class Wallet {
     }
 
      safeBalance = this.calculateSafeBalance(safeTransactions);
+     this.safeBalance = BigInt(safeBalance);
      confirmedBalance = this.calculateConfirmedBalance(
       confirmedTransactions
     );
+    this.confirmedBalance = BigInt(confirmedBalance);
     if(pendingTransactions.length === 0){
       pendingBalance = confirmedBalance;
       this.pendingBalance = BigInt(confirmedBalance); 
@@ -131,15 +134,15 @@ class Wallet {
     // console.log("safeTransactions", safeTransactions);
     // console.log("confirmedTransactions", confirmedTransactions);
     // console.log("pendingTransactions", pendingTransactions);
-    this.safeBalance = BigInt(safeBalance);
-    this.confirmedBalance = BigInt(confirmedBalance);
+
+    
 
     
     return { safeBalance, confirmedBalance, pendingBalance };
   }
 
   calculateSafeBalance(safeTransactions) {
-    let safeBalance = this.safeBalance;
+    let safeBalance = BigInt(this.safeBalance);
     console.log("safeBalance beginning ", safeBalance);
 
     // find all transactions matching address
@@ -147,7 +150,7 @@ class Wallet {
       (transaction) => transaction.input.senderAddress === this.address
     );
     // console.log(safeWalletInputTs);
-    let startTime = "1991-10-01T00:00:00.000Z";
+    let startTime = this.startTime;
 
     // if any matching transactions, take only most recent input
     // and set balance to that
@@ -161,6 +164,7 @@ class Wallet {
         (output) => output.address === this.address
       ).newSenderSafeBalance;
       startTime = safeRecentInputT.input.dateCreated;
+      safeBalance = BigInt(safeBalance);
     }
 
     // check time stamp, then add valid outputs to balance
@@ -168,17 +172,18 @@ class Wallet {
       if (transaction.input.dateCreated > startTime) {
         transaction.outputs.find((output) => {
           if (output.address === this.address) {
-            safeBalance += output.sentAmount;
+            safeBalance += BigInt(output.sentAmount);
           }
         });
       }
     });
     console.log("final safeBalance returned ", safeBalance);
+    this.startTime = startTime;
     return safeBalance;
   }
 
   calculateConfirmedBalance(confirmedTransactions) {
-    let confirmedBalance = this.confirmedBalance;
+    let confirmedBalance = BigInt(this.confirmedBalance);
     console.log("confirmedBalance beginning ", confirmedBalance);
 
     // find all transactions matching address
@@ -186,7 +191,7 @@ class Wallet {
       (transaction) => transaction.input.senderAddress === this.address
     );
     // console.log(safeWalletInputTs);
-    let startTime = "1991-10-01T00:00:00.000Z";
+    let startTime = this.startTime;
 
     // if any matching transactions, take only most recent input
     // and set balance to that
@@ -196,10 +201,11 @@ class Wallet {
         (prev, current) =>
           prev.input.dateCreated > current.input.dateCreated ? prev : current
       );
-
+      
       confirmedBalance = confirmedRecentInputT.outputs.find(
         (output) => output.address === this.address
       ).newSenderConfirmedBalance;
+      confirmedBalance = BigInt(confirmedBalance);
       startTime = confirmedRecentInputT.input.dateCreated;
     }
 
@@ -215,11 +221,12 @@ class Wallet {
       }
     });
     console.log("final confirmedBalance returned ", confirmedBalance);
+    this.startTime = startTime;
     return confirmedBalance;
   }
 
   calculatePendingBalance(pendingTransactions) {
-    let pendingBalance = this.pendingBalance;
+    let pendingBalance = BigInt(this.pendingBalance);
     console.log("pendingBalance beginning ", pendingBalance);
 
     // find all transactions matching address
@@ -241,6 +248,7 @@ class Wallet {
         (output) => output.address === this.address
       ).newSenderPendingBalance;
       startTime = pendingRecentInputT.input.dateCreated;
+      pendingBalance = BigInt(pendingBalance);
     }
 
     // check time stamp, then add valid outputs to balance
@@ -248,7 +256,7 @@ class Wallet {
       if (transaction.input.dateCreated > startTime) {
         transaction.outputs.find((output) => {
           if (output.address === this.address) {
-            pendingBalance += output.sentAmount;
+            pendingBalance += BigInt(output.sentAmount);
           }
         });
       }

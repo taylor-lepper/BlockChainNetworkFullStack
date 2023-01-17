@@ -20,13 +20,13 @@ class Transaction {
   }
 
   static newTransaction(senderWallet, recipient, amount, blockchain, gas) {
-    console.log(senderWallet.safeBalance);
+    console.log("safe balance", senderWallet.safeBalance);
 
-    if (BigInt(amount > senderWallet.safeBalance)) {
+    if (BigInt(amount) > BigInt(senderWallet.safeBalance)) {
       console.log(
         `Amount : ${amount} exceeds the balance ${senderWallet.safeBalance}`
       );
-      return "Not enough balance to create transaction!";
+      return {errorMsg: "Not enough balance to create transaction!"};
     }
 
     // use helper function to create and sign transaction outputs
@@ -49,11 +49,11 @@ class Transaction {
       (output) => output.address === senderWallet.address
     );
 
-    if (BigInt(amount > senderWallet.safeBalance)) {
+    if ((BigInt(amount) > BigInt(senderWallet.safeBalance))) {
       console.log(
         `Amount ${amount} exceeds balance ${senderWallet.safeBalance}`
       );
-      return "Not enough balance to create transaction!";
+      return {errorMsg: "Not enough balance to create transaction!"};
     }
 
     senderOutput.newSenderPendingBalance =

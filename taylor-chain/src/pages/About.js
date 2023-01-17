@@ -13,11 +13,32 @@ class About extends React.Component {
               TaylorChain, the world's most innovative blockchain!
             </p>
             <br />
-            <p>
-              Here you can find many useful resources for accessing blockchain
-              information, interacting with TaylorChain, as well as mining your
-              own coins!
-            </p>
+            <h4>Here are some of the resources available:</h4>
+            <ul>
+       
+           
+            <li>
+              Connect to the network
+            </li>
+            <li>
+              Create a new Wallet
+            </li>
+            <li>
+             Send and recieve transactions
+            </li>
+            <li>
+            Request 1 coin hourly, from the the Faucet
+            </li>
+            <li>
+            Mine new Blocks, and win Block Rewards
+            </li>
+            <li>
+            Explore the Blockchain transactions and Wallets
+            </li>
+             
+            </ul>
+           
+           
           </div>
         </div>
       </div>

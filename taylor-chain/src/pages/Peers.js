@@ -123,6 +123,17 @@ const Peers = (props) => {
   const submitDisconnect = async (event) => {
     console.log("submitDisconnect");
     event.preventDefault();
+
+    if(disconnect === "" || isNaN(disconnect)){
+      setMessage(
+        "Please enter a valid HTTP port to disconnect (ex. 3002)"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     const result = await disconnectPeer(disconnect);
 
     if (result) {

@@ -34,7 +34,27 @@ const Faucet = (props) => {
 
   const getAddressByName = async (event) => {
     event.preventDefault();
+
+    if(name === ""){
+      setMessage(
+        "Please enter a name to load your address!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     const result = await addressByName(name);
+
+    if (result === "No wallet found by that name!") {
+      console.log("No wallet by name");
+      setMessage(result);
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
 
     if (result) {
       console.log(result);
@@ -52,6 +72,16 @@ const Faucet = (props) => {
 
   const getAddressByPort = async (event) => {
     event.preventDefault();
+
+    if(port === "" || isNaN(port)){
+      setMessage(
+        "Please enter a valid HTTP port to load your address (ex. 3002)"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
     const result = await address(port);
 
     if (result) {
@@ -71,10 +101,31 @@ const Faucet = (props) => {
   const getCoins = async (event) => {
     event.preventDefault();
 
+    if(walletAddress === ""){
+      setMessage(
+        "Please enter a valid wallet address!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     const token = await reRef.current.executeAsync();
     reRef.current.reset();
     console.log("token", token);
-    const result = await faucet(token);
+
+    const result = await faucet(walletAddress, token);
+
+    if (result === "Too many requests, please wait an hour and try again.") {
+      console.log("Too many requests");
+      setMessage(result);
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
     if (result) {
       console.log(result);
       setResults(result);
@@ -99,14 +150,8 @@ const Faucet = (props) => {
   return (
     <div className="faucet">
       <h2>Need some coins???</h2>
-      <div className="float-container">
-        <div>
-          <div className="message2">{message2 && <h1>{message2}</h1>}</div>
-        </div>
-        <div>
-          <div className="message">{message && <h1>{message}</h1>}</div>
-        </div>
-        <div className="float-child2">
+      <div className="transactionInner2">
+        <form>
           <h2>Faucet</h2>
           <h3>Enter address below to recieve 1 TaylorCoin</h3>
           <input
@@ -134,9 +179,18 @@ const Faucet = (props) => {
             size="invisible"
             ref={reRef}
           />
+        </form>
+      </div>
+
+      <div className="float-container">
+        <div>
+          <div className="message2">{message2 && <h1>{message2}</h1>}</div>
+        </div>
+        <div>
+          <div className="message">{message && <h1>{message}</h1>}</div>
         </div>
 
-        <div className="float-child2">
+        <div className="float-child">
           <h3>Need your address?</h3>
           <p>Load your address by port number</p>
           <input
@@ -161,7 +215,7 @@ const Faucet = (props) => {
           <br />
         </div>
 
-        <div className="float-child2">
+        <div className="float-child">
           <h3>Need your address?</h3>
           <p>Load your address by wallet name</p>
           <input

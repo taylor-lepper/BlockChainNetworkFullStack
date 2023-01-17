@@ -6,7 +6,7 @@ const Transaction = require("../wallet/transaction");
 
 class Miner {
   constructor(blockchain, transactionPool, wallet, peers) {
-    this.currentJob = [];
+    this.currentJobs = [];
     this.blockchain = blockchain;
     this.transactionPool = transactionPool;
     this.wallet = wallet;
@@ -14,7 +14,7 @@ class Miner {
     this.blockchainWallet = this.blockchain.blockchainWallet;
   }
 
-  solveBlock(job){
+  solveBlock(job, wallet){
     // console.log("job ", job);
     let hash;
     let transactions = job.transactions;
@@ -26,7 +26,7 @@ class Miner {
     let _nonce = 0;
 
     // add reward transaction
-    const rewardTransaction =  Transaction.rewardTransaction(this.wallet, this.blockchainWallet, this.blockchain, this.transactionPool, BigInt(0));
+    const rewardTransaction =  Transaction.rewardTransaction(wallet, this.blockchainWallet, this.blockchain, this.transactionPool, BigInt(0));
     transactions.unshift(rewardTransaction);
 
     // modify transactions
@@ -51,7 +51,7 @@ class Miner {
       // check if we have the right # of zeros (P.O.W)
     } while (hash.substring(0, difficulty) !== "0".repeat(difficulty));
 
-    const potentialBlock = {index: index, transactions: transactions, difficulty: difficulty, prevBlockHash: prevBlockHash, minedBy: this.wallet.address, blockDataHash: job.blockDataHash, nonce: _nonce, dateCreated: dateCreated, hash: hash};
+    const potentialBlock = {index: index, transactions: transactions, difficulty: difficulty, prevBlockHash: prevBlockHash, minedBy: wallet.address, blockDataHash: job.blockDataHash, nonce: _nonce, dateCreated: dateCreated, hash: hash};
 
     return potentialBlock;
   }

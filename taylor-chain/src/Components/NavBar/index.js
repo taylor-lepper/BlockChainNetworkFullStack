@@ -32,6 +32,12 @@ class Navbar extends React.Component {
 							<NavLink to="/wallet" activestyle="true">
 								Wallet
 							</NavLink>
+
+							
+							<NavLink to="/transactions" activestyle="true">
+								Transactions
+							</NavLink>
+					
 					
 							<NavLink to="/miner" activestyle="true">
 								Miner

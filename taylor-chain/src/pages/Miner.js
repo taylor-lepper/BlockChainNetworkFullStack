@@ -4,11 +4,35 @@ import mining from "../actions/mining";
 
 const Miner = (props) => {
   const [message, setMessage] = useState("");
+  const [address, setAddress] = useState("");
+  const [address2, setAddress2] = useState("");
   const navigate = useNavigate();
 
   const job = async (event) => {
     event.preventDefault();
-    const result = await mining("job");
+
+    if(address === ""){
+      setMessage(
+        "Please enter a valid wallet address to get a mining job"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
+    const result = await mining("job", address);
+
+    if(result.errorMsg){
+      console.log('Submit mining job error');
+      setMessage(
+        result.errorMsg
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
 
     if (result) {
       console.log(result);
@@ -31,7 +55,42 @@ const Miner = (props) => {
 
   const submit = async (event) => {
     event.preventDefault();
-    const result = await mining("submit");
+
+    if(address2 === ""){
+      setMessage(
+        "Please enter a valid wallet address to submit your mining job"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
+    const result = await mining("submit", address2);
+
+    if(result.errorMsg){
+      console.log('Submit block error');
+      setMessage(
+        result.errorMsg
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
+
+
+
+    if(result ==='Network Error'){
+      console.log('Network Error');
+      setMessage(
+       "Network Error, make sure you are connected on that port!"
+      );
+      setTimeout(() => {
+        setMessage("");
+      }, 4000);
+      return;
+    }
 
     if (result) {
       console.log(result);
@@ -44,7 +103,7 @@ const Miner = (props) => {
     }
 
     if (!result) {
-      setMessage("You need to get a job Spicoli!\n Click the button to your left!");
+      setMessage("Error contacting the blockchain");
       setTimeout(() => {
         setMessage("");
       }, 4000);
@@ -67,7 +126,19 @@ const Miner = (props) => {
         <div className="paddingTop2">
           <h3>Jobs</h3>
           <h4>Click below to get a new mining job!</h4>
-          <button type="job" onClick={job}>
+
+          <h5>Please enter your wallet address</h5>
+          <input
+          className="input2"
+              type="text"
+              name="address"
+              required
+              placeholder="enter your wallet address"
+              value={address}
+              onChange={(eventObj) => setAddress(eventObj.target.value)}
+            />
+            <br/>
+          <button className="marginButton" type="job" onClick={job}>
             Get a Job
           </button>
         </div>
@@ -77,7 +148,19 @@ const Miner = (props) => {
         <div className="paddingTop2">
           <h3>Submit</h3>
           <h4>Click below to get solve and submit your current job!</h4>
-          <button type="submit" onClick={submit}>
+
+          <h5>Please enter your wallet address</h5>
+          <input
+          className="input2"
+              type="text"
+              name="address2"
+              required
+              placeholder="enter your wallet address"
+              value={address2}
+              onChange={(eventObj) => setAddress2(eventObj.target.value)}
+            />
+              <br/>
+          <button className="marginButton" type="submit" onClick={submit}>
             Submit Proof
           </button>
         </div>

@@ -20,12 +20,21 @@ class Blockchain {
     return this.chain[this.chain.length - 1];
   }
 
-  validateBlock(blockInfo, transactionPool, peers, miner) {
+  validateBlock(blockInfo, transactionPool, peers, miner, jobObject) {
     // console.log(blockInfo);
     const hash = blockInfo.hash;
 
     let miningJob = this.miningPool.get(blockInfo.blockDataHash);
     // console.log(miningJob);
+    if(!miningJob){
+      miner.currentJobs = [];
+      this.miningPool.delete(blockInfo.blockDataHash);
+      transactionPool.clear()
+      return {
+        errorCode: 400,
+        message: "This block has already been mined! Grab a new job from the node!",
+      };
+    }
     if (hash.startsWith("0".repeat(miningJob.difficulty))) {
       // console.log("verified hash");
 
@@ -50,7 +59,7 @@ class Blockchain {
         peers.syncChain();
         transactionPool.clear();
         peers.broadcastClearTransactions();
-        miner.currentJob = [];
+        miner.currentJobs = [];
         this.miningPool.clear();
         return {
           message: "New block added to the blockchain!",
@@ -58,16 +67,16 @@ class Blockchain {
           blockchain: this.chain,
         };
       } else {
-        miner.currentJob = [];
+        miner.currentJobs = [];
         this.miningPool.delete(blockInfo.blockDataHash);
         transactionPool.clear()
         return {
-          errorCode: 404,
-          message: `Block at index: ${blockInfo.index} has already been mined!`,
+          errorCode: 400,
+          message: "This block has already been mined! Grab a new job from the node!",
         };
       }
     }
-    miner.currentJob = [];
+    this.removeObjectWithId(miner.currentJobs, jobObject.address);
     this.miningPool.delete(blockInfo.blockDataHash);
     return { errorCode: 404, message: `Invalid proof of work: ${hash}` };
   }
@@ -224,7 +233,7 @@ class Blockchain {
       let indexToAdjust = this.getLatestBlock().index - 6;
       // console.log(indexToAdjust);
       let blockTransactionsToAdjust = this.chain[indexToAdjust].transactions;
-      // console.log(blockTransactionsToAdjust);
+      console.log(blockTransactionsToAdjust);
       blockTransactionsToAdjust.forEach((transaction) => {
         transaction.outputs[0] = {
           newSenderSafeBalance:
@@ -297,7 +306,7 @@ class Blockchain {
         return transaction;
       }
     }
-    for (let i = 1; i < this.chain.length; i++) {
+    for (let i = 0; i < this.chain.length; i++) {
       let currTransactions = this.chain[i].transactions;
       // console.log(currTransactions);
       for (let i = 0; i < currTransactions.length; i++) {
@@ -311,6 +320,18 @@ class Blockchain {
     }
     return `No matching transaction found for hash '${hashToFind}'`;
   }
+
+  removeObjectWithId(arr, address) {
+    const objWithIdIndex = arr.findIndex((obj) => obj.address === address);
+  
+    if (objWithIdIndex > -1) {
+      arr.splice(objWithIdIndex, 1);
+    }
+  
+    return arr;
+  }
+
 }
 
 module.exports = Blockchain;
+

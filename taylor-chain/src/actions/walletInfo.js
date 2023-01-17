@@ -1,12 +1,12 @@
 import axios from "axios";
 
-const wallet = async (type, name) => {
+const walletInfo = async (type, privateKey) => {
 
-  if (type === "new") {
+  if (type === "info") {
   try {
    
-      let url = `http://localhost:3001/wallet/new`;
-      const body = JSON.stringify({ name: name });
+      let url = `http://localhost:3001/wallet`;
+      const body = JSON.stringify({ privateKey: privateKey });
       const config = {
         headers: {
           "Content-Type": "application/json",
@@ -21,10 +21,9 @@ const wallet = async (type, name) => {
    
   } catch (err) {
     console.log(err);
-    if(err.message === "Network Error"){return err.message};
     return err.response.data.message;
   }
 }
 };
 
-export default wallet;
+export default walletInfo;

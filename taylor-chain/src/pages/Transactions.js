@@ -41,7 +41,7 @@ const Transaction = (props) => {
 
     if (result) {
       console.log(result);
-      setWalletAddress(result.address);
+      setFrom(result.address);
     }
 
     if (!result) {
@@ -172,7 +172,7 @@ const Transaction = (props) => {
       <div>
         <h3>Here, you can send coins by creating a new Transaction!</h3>
         <h4>All amounts are to be input in Micro-Coins</h4>
-        <h4>!!! Transactions are deducted from safeBalance !!!</h4>
+        <h4>!!! Transactions are deducted from confirmed balance !!!</h4>
       </div>
 
       <div className="message">{message && <h1>{message}</h1>}</div>

@@ -286,6 +286,7 @@ app.post("/transactions/create", (req, res) => {
       .json({ errorMsg: "No wallet found by that address!" });
   }
 
+  matchingWallet.calculateBalance(blockchain, transactionPool);
   if (recipient === undefined) {
     return res
       .status(400)

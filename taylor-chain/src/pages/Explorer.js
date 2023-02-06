@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import explore from "../actions/explore";
 
 const Explorer = (props) => {
-  const [exploreType, setExploreType] = useState("");
   const [address, setAddress] = useState("");
   const [index, setIndex] = useState("");
   const [transactionHash, setTransactionHash] = useState("");
@@ -14,17 +13,14 @@ const Explorer = (props) => {
   // console.log(props);
   const clearIndex = (event) => {
     setIndex("");
-    setExploreType("");
     return;
   };
   const clearAddress = (event) => {
     setAddress("");
-    setExploreType("");
     return;
   };
   const clearTransaction = (event) => {
     setTransactionHash("");
-    setExploreType("");
     return;
   };
 

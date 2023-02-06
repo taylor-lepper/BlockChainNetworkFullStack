@@ -129,7 +129,7 @@ const Miner = (props) => {
 
           <h5>Please enter your wallet address</h5>
           <input
-          className="input2"
+          className="input3"
               type="text"
               name="address"
               required
@@ -147,11 +147,11 @@ const Miner = (props) => {
       <div className="float-child">
         <div className="paddingTop2">
           <h3>Submit</h3>
-          <h4>Click below to get solve and submit your current job!</h4>
+          <h4>Click below to solve and submit your current job!</h4>
 
           <h5>Please enter your wallet address</h5>
           <input
-          className="input2"
+          className="input3"
               type="text"
               name="address2"
               required

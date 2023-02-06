@@ -15,6 +15,7 @@ class Wallet {
     this.publicKeyCompressed = ChainUtil.compressPublicKey(this.publicKey);
     this.startTime = "1991-10-01T00:00:00.000Z";
     this.safeStartTime = "1991-10-01T00:00:00.000Z";
+    this.confirmedStartTime = "1991-10-01T00:00:00.000Z";
   }
 
   toString() {
@@ -195,11 +196,11 @@ class Wallet {
   }
 
   calculateConfirmedBalance(confirmedTransactions) {
-    let startTime1 = this.startTime;
-    let startTime2 = this.startTime;
+    let startTime1 = this.confirmedStartTime;
+    let startTime2 = this.confirmedStartTime;
     let confirmedBalance = BigInt(this.confirmedBalance);
     console.log("confirmedBalance beginning ", confirmedBalance);
-
+    console.log(startTime1, startTime2);
     // find all transactions matching address
     const confirmedWalletInputTs = confirmedTransactions.filter(
       (transaction) => transaction.input.senderAddress === this.address
@@ -241,6 +242,11 @@ class Wallet {
         
       }
     });
+    console.log(startTime1, startTime2);
+    if(startTime1 > startTime2){
+      this.confirmedStartTime = startTime1;
+    }
+    this.confirmedStartTime = startTime2;
     console.log("final confirmedBalance returned ", confirmedBalance);
     return confirmedBalance;
   }
